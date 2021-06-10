@@ -75,6 +75,7 @@ test_eval = model.evaluate(test_X, test_Y_one_hot, verbose=0)
 print('Test loss:', test_eval[0])
 print('Test accuracy:', test_eval[1])
 
+
 # trained.history
 accuracy = trained.history['accuracy']
 val_accuracy = trained.history['val_accuracy']
@@ -89,5 +90,220 @@ plt.figure()
 plt.plot(epochs, loss, 'bo', label='Training loss')
 plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+model2 = Sequential()
+
+model2.add(Flatten())
+model2.add(Dense(512, activation='relu'))
+model2.add(Dense(512, activation='relu'))
+model2.add(Dense(512, activation='relu'))
+model2.add(Dense(512, activation='relu'))
+model2.add(Dense(512, activation='relu'))
+model2.add(Dense(num_classes, activation='softmax'))
+
+epochs2 = 20
+
+model2.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=['accuracy'])
+# model2.summary()
+
+trained2 = model2.fit(train_X, train_label, batch_size=batch_size,epochs=epochs2, verbose=1,validation_data=(valid_X, valid_label))
+
+test_eval2 = model2.evaluate(test_X, test_Y_one_hot, verbose=0)
+
+print('Test loss:', test_eval2[0])
+print('Test accuracy:', test_eval2[1])
+
+accuracy2 = trained2.history['accuracy']
+val_accuracy2 = trained2.history['val_accuracy']
+loss2 = trained2.history['loss']
+val_loss2 = trained2.history['val_loss']
+epochs2 = range(len(accuracy2))
+plt.plot(epochs2, accuracy2, 'bo', label='Training accuracy')
+plt.plot(epochs2, val_accuracy2, 'b', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs2, loss2, 'bo', label='Training loss')
+plt.plot(epochs2, val_loss2, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+model3 = Sequential()
+
+model3.add(Flatten())
+model3.add(Dense(512, activation='relu'))
+model3.add(Dropout(0.5))
+model3.add(Dense(512, activation='relu'))
+model3.add(Dropout(0.5))
+model3.add(Dense(512, activation='relu'))
+model3.add(Dropout(0.5))
+model3.add(Dense(512, activation='relu'))
+model3.add(Dropout(0.5))
+model3.add(Dense(512, activation='relu'))
+model3.add(Dropout(0.5))
+model3.add(Dense(num_classes, activation='softmax'))
+
+epochs3 = 20
+
+model3.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=['accuracy'])
+# model2.summary()
+
+trained3 = model3.fit(train_X, train_label, batch_size=batch_size,epochs=epochs3, verbose=1,validation_data=(valid_X, valid_label))
+
+test_eval3 = model3.evaluate(test_X, test_Y_one_hot, verbose=0)
+
+print('Test loss:', test_eval3[0])
+print('Test accuracy:', test_eval3[1])
+
+accuracy3 = trained3.history['accuracy']
+val_accuracy3 = trained3.history['val_accuracy']
+loss3 = trained3.history['loss']
+val_loss3 = trained3.history['val_loss']
+epochs3 = range(len(accuracy3))
+plt.plot(epochs3, accuracy3, 'bo', label='Training accuracy')
+plt.plot(epochs3, val_accuracy3, 'b', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs3, loss3, 'bo', label='Training loss')
+plt.plot(epochs3, val_loss3, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+
+# CNN 
+plt.plot(epochs[:10], accuracy[:10], 'bo', color='r', label='Training accuracy for CNN')
+plt.plot(epochs[:10], val_accuracy[:10], 'b', color='r', label='Validation accuracy for CNN')
+
+# simple DNN 
+plt.plot(epochs2[:10], accuracy2[:10], 'bo', color='g', label='Training accuracy for DNN')
+plt.plot(epochs2[:10], val_accuracy2[:10], 'b', color='g', label='Validation accuracy for DNN')
+
+# simple DNN with dropout
+plt.plot(epochs3[:10], accuracy3[:10], 'bo', color='b', label='Training accuracy for DNN with dropout')
+plt.plot(epochs3[:10], val_accuracy3[:10], 'b', color='b', label='Validation accuracy for DNN with dropout')
+
+plt.legend()
+plt.show()
+
+model4 = Sequential()
+model4.add(Conv2D(32, kernel_size=(3, 3),activation='sigmoid',input_shape=(32,32,3),padding='same'))
+model4.add(MaxPooling2D((2, 2),padding='same'))
+
+model4.add(Conv2D(64, (3, 3), activation='sigmoid',padding='same'))
+model4.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+
+model4.add(Conv2D(128, (3, 3), activation='sigmoid',padding='same'))
+model4.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+
+model4.add(Flatten())
+model4.add(Dense(128, activation='sigmoid'))
+model4.add(Dense(num_classes, activation='softmax'))
+
+model4.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=['accuracy'])
+model4.summary()
+
+epochs4 = 20
+
+trained4 = model4.fit(train_X, train_label, batch_size=batch_size,epochs=epochs4,verbose=1,validation_data=(valid_X, valid_label))
+
+test_eval4 = model4.evaluate(test_X, test_Y_one_hot, verbose=0)
+
+print('Test loss:', test_eval4[0])
+print('Test accuracy:', test_eval4[1])
+
+
+# trained.history
+accuracy4 = trained4.history['accuracy']
+val_accuracy4 = trained4.history['val_accuracy']
+loss4 = trained4.history['loss']
+val_loss4 = trained4.history['val_loss']
+epochs4 = range(len(accuracy4))
+plt.plot(epochs4, accuracy4, 'bo', label='Training accuracy')
+plt.plot(epochs4, val_accuracy4, 'b', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs4, loss4, 'bo', label='Training loss')
+plt.plot(epochs4, val_loss4, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+
+# CNN relU
+plt.plot(epochs[:10], accuracy[:10], 'bo', color='r', label='Training accuracy for CNN with relU')
+plt.plot(epochs[:10], val_accuracy[:10], 'b', color='r', label='Validation accuracy for CNN with relU')
+
+# CNN sigmoid
+plt.plot(epochs4[:10], accuracy4[:10], 'bo', color='g', label='Training accuracy for CNN with sigmoid')
+plt.plot(epochs4[:10], val_accuracy4[:10], 'b', color='g', label='Validation accuracy for CNN with sigmoid')
+
+plt.legend()
+plt.show()
+
+epochs5 = 20
+
+model5 = Sequential()
+model5.add(Conv2D(32, kernel_size=(3, 3),activation='relu',input_shape=(32,32,3),padding='same'))
+model5.add(MaxPooling2D((2, 2),padding='same'))
+model5.add(Dropout(0.5))
+
+model5.add(Conv2D(64, (3, 3), activation='relu',padding='same'))
+model5.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+model5.add(Dropout(0.5))
+
+model5.add(Conv2D(128, (3, 3), activation='relu',padding='same'))
+model5.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+model5.add(Dropout(0.5))
+
+model5.add(Flatten())
+model5.add(Dense(128, activation='relu'))
+model5.add(Dense(num_classes, activation='softmax'))
+
+model5.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=['accuracy'])
+model5.summary()
+
+trained5 = model5.fit(train_X, train_label, batch_size=batch_size,epochs=epochs5,verbose=1,validation_data=(valid_X, valid_label))
+
+test_eval5 = model5.evaluate(test_X, test_Y_one_hot, verbose=0)
+
+print('Test loss:', test_eval5[0])
+print('Test accuracy:', test_eval5[1])
+
+
+# trained.history
+accuracy5 = trained5.history['accuracy']
+val_accuracy5 = trained5.history['val_accuracy']
+loss5 = trained5.history['loss']
+val_loss5 = trained5.history['val_loss']
+epochs5 = range(len(accuracy5))
+plt.plot(epochs5, accuracy5, 'bo', label='Training accuracy')
+plt.plot(epochs5, val_accuracy5, 'b', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs5, loss5, 'bo', label='Training loss')
+plt.plot(epochs5, val_loss5, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+
+# CNN without dropout
+plt.plot(epochs[:10], accuracy[:10], 'bo', color='r', label='Training accuracy for CNN without dropout')
+plt.plot(epochs[:10], val_accuracy[:10], 'b', color='r', label='Validation accuracy for CNN without dropout')
+
+# CNN with dropout
+plt.plot(epochs5[:10], accuracy5[:10], 'bo', color='g', label='Training accuracy for CNN with dropout')
+plt.plot(epochs5[:10], val_accuracy5[:10], 'b', color='g', label='Validation accuracy for CNN with dropout')
+
 plt.legend()
 plt.show()
